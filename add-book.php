@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST["description"];
     $category = $_POST["category"];
     $author = $_POST["author"];
+    $free = $_POST["free_book"];
     $image = $_POST["image"];
     $access_token = $_COOKIE['access_token'];
 
@@ -43,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'description' => $description,
         'category_code' => $category,
         'author' => $author,
+        'free' => $free,
         'image' => $image
     ];
 
@@ -116,6 +118,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="author">Author</label>
                         <input type="text" class="form-control" id="author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Free Book</label>
+                        <div class="form-check form-check-inline ms-4">
+                            <input class="form-check-input" type="radio" name="free_book" id="free_book_0" value="0" required>
+                            <label class="form-check-label" for="free_book_0">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="free_book" id="free_book_1" value="1" required>
+                            <label class="form-check-label" for="free_book_1">Yes</label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">

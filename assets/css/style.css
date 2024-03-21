@@ -91,6 +91,43 @@ a {
   align-items: center;
 }
 
+/*  Free Book or All Book */
+.freeBook-allBook{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.freeBook-allBook button{
+  display: flex;
+  padding: 15px;
+  justify-content: center;
+  font-size: larger;
+  font-weight: 600;
+  background-color: var(--color-creamson);
+  border-radius: 20px !important;
+}
+
+.freeBook-allBook .list-group-item:first-child{
+  margin-right: 10px;
+}
+
+.freeBook-allBook .list-group-item:last-child{
+  margin-left: 10px;
+}
+
+.freeBook-allBook button:hover {
+  opacity: 0.8;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.freeBook-allBook .active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
 
 /* Search */
 .search .input-group input {
@@ -108,11 +145,13 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
   background-color: var(--primary-color);
   color: #fff;
 }
+
+
 
 .filter .list-group button {
   font-size: 20px;

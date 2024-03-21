@@ -168,17 +168,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="book-detail_desc row">
                 <p>Description: <?php echo $book['description']; ?></p>
                 <h5>Author: <?php echo $book['author']; ?></h5>    
+                <h5>Free Book: <?php echo ($book['free'] == 1) ? 'Yes' : 'No' ; ?></h5>    
             </div>
             <hr>
             <div class="button-group">
                 <div class="book-detail_btn col">
                     <? if(isset($_COOKIE['role'])) : ?>
                         <?if($role == "AD") : ?>
+                            <button class="btn"><a href="https://drive.google.com/file/d/1kY5nMGIkaTB2yh0DeB39gOzESkBzL55L/view">Read</a></button>
                             <button class="btn"><a href="update-book.php?id=<?=htmlspecialchars($book['id'])?>#update_book">Update</a></button>
                             <form id="deleteForm" method="post">
                                 <input type="hidden" name="id" value="<?php echo $book['id']; ?>">
                                 <button type="submit" class="btn" name="delete">Delete</button>
                             </form>
+                            <a href="index.php#home" class="btn btn-cancel">Cancel</a>
                         <? elseif($role == "UR") : ?>
                             <?php
                                 $cancelButtonDisplayed = false;
@@ -188,28 +191,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             if ($key->status == 0) {
                                                 ?>
                                                 <a href="" class="btn">Chờ duyệt</a>
-                                                <a href="index.php#home" class="btn btn-cancel">Cancel 1</a>
+                                                <a href="index.php#home" class="btn btn-cancel">Cancel</a>
                                                 <?php $cancelButtonDisplayed = true;
                                             } elseif (!$cancelButtonDisplayed && $key->status == 1) {
                                                 ?>
                                                 <button class="btn"><a href="https://drive.google.com/file/d/1kY5nMGIkaTB2yh0DeB39gOzESkBzL55L/view">Read</a></button>
-                                                <a href="index.php#home" class="btn btn-cancel">Cancel 2</a>
+                                                <a href="index.php#home" class="btn btn-cancel">Cancel</a>
                                                 <?php $cancelButtonDisplayed = true;
                                             } elseif (!$cancelButtonDisplayed && in_array($key->status, [2, 3])) {
                                                 ?>
                                                 <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
-                                                <a href="index.php#home" class="btn btn-cancel">Cancel 3</a>
+                                                <a href="index.php#home" class="btn btn-cancel">Cancel</a>
                                                 <?php $cancelButtonDisplayed = true;
                                             }
                                         }
                                     }
+                                    if($book['free'] == 1){
+                                        ?>
+                                        <button class="btn"><a href="https://drive.google.com/file/d/1kY5nMGIkaTB2yh0DeB39gOzESkBzL55L/view">Read</a></button>
+                                        <a href="index.php#home" class="btn btn-cancel">Cancel</a> 
+                                        <? $cancelButtonDisplayed = true;
+                                    }
                                     if (!$cancelButtonDisplayed) {
                                         ?>
                                         <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
-                                        <a href="index.php#home" class="btn btn-cancel">Cancel 4</a>
+                                        <a href="index.php#home" class="btn btn-cancel">Cancel</a>
                                         <?php
                                     }
-                                } else {
+                                }else {
                                     ?>
                                     <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
                                     <a href="index.php#home" class="btn btn-cancel">Cancel</a>
@@ -217,6 +226,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 }
                             ?>
                         <? endif; ?>
+                    <?elseif(!isset($_COOKIE['role']) && $book['free'] == 1) :?>   
+                        <button class="btn"><a href="https://drive.google.com/file/d/1kY5nMGIkaTB2yh0DeB39gOzESkBzL55L/view">Read</a></button>
+                        <a href="index.php#home" class="btn btn-cancel">Cancel</a> 
                     <?else: ?>
                         <a href="login.php#login" class="btn">Login to continue</a>
                     <? endif; ?>    

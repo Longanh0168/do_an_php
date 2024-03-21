@@ -130,7 +130,7 @@ require "./inc/header.php";
                         
                     <tr>
                         <td><? echo $key->id  ?></td>
-                        <td><? echo $key->book_title  ?></td>                 
+                        <td><a href="book-detail.php?id=<? echo $key->book_id?>#book_detail"><? echo $key->book_title ?></a></td>                 
                         <td><?echo $key->borrowed_day?></td>
                         <td><?echo $key->returned_day?></td>
                         <? if($key->status == 0) : 

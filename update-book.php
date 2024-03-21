@@ -55,6 +55,7 @@
         $description = $_POST["description"];
         $category = $_POST["category"];
         $author = $_POST["author"];
+        $free = $_POST["free_book"];
         $image = $_POST["image"];
         $access_token = $_COOKIE['access_token'];
 
@@ -65,6 +66,7 @@
             'description' => $description,
             'category_code' => $category,
             'author' => $author,
+            'free' => $free,
             'image' => $image
         ];
 
@@ -93,7 +95,7 @@
         if ($httpCode === 200) {
             $object = json_decode($response);
             echo "<script> 
-                    window.location.href = 'index.php';     
+                    window.location.href = 'book-detail.php?id=$id#book_detail';     
                  </script>";
         } else {
             echo "<script> 
@@ -147,6 +149,17 @@
                     <div class="form-group">
                         <label for="author">Author</label>
                         <input type="text" class="form-control" id="author" name="author" value="<?=htmlspecialchars($book['author'])?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Free Book</label>
+                        <div class="form-check form-check-inline ms-4">
+                            <input class="form-check-input" type="radio" name="free_book" id="free_book_0" value="00" required>
+                            <label class="form-check-label" for="free_book_0">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="free_book" id="free_book_1" value="1" required>
+                            <label class="form-check-label" for="free_book_1">Yes</label>
+                        </div>
                     </div>
                 </div>
               <div class="button-group">

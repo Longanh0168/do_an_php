@@ -3,7 +3,8 @@
     $books = [];
     $page = null;
     $categoryFilter = null;
-    $search_title =null;
+    $search_title = null;
+    $freeFilter = null;
 ?>
 
 <!-- API lấy tất cả tên thể loại của sách -->
@@ -31,8 +32,16 @@
         return strtoupper($code);
     }
 
-    // Kiểm tra xem đã có yêu cầu lọc sách theo danh mục hay chưa
+    // Kiểm tra nếu có yêu cầu xem sách free hay ko
+    if(isset($_GET["free"])) {
+        if(!empty($_GET['free'])){ 
+            $freeFilter = $_GET['free'];
+        }else{
+            $freeFilter = '';
+       }
+    }
 
+    // Kiểm tra xem đã có yêu cầu lọc sách theo danh mục hay chưa
     if(isset($_GET['category'])){
         if(!empty($_GET['category'])){ 
             $categoryFilter = generatecode($_GET['category']);
@@ -40,12 +49,13 @@
             $categoryFilter = '';
        }
     }
+
     // Kiểm tra nếu có yêu cầu tìm kiếm
     if(isset($_GET['search'])){ 
         $search_title =$_GET['search'] ;
     }
 
-    if($search_title || $categoryFilter){
+    if($freeFilter || $search_title || $categoryFilter){
         try {
             // API endpoint
             $api_url = BOOK_URL . "/get_books.php";
@@ -63,6 +73,10 @@
             }
 
             $api_params = "?limit=$booksPerPage&page=$page";
+
+            if($freeFilter){
+                $api_params .= "&free=$freeFilter";
+            }
 
             if($search_title){
                 $search_title_code = urlencode($search_title);
@@ -91,6 +105,8 @@
         // Số quyển sách trên mỗi trang
         $booksPerPage = 10;
 
+        
+
         // Xác định trang hiện tại
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
@@ -103,6 +119,7 @@
         $api_params = "?limit=$booksPerPage&page=$page";
         $response = file_get_contents($api_url . $api_params);
         $data = json_decode($response, true);
+        // $offset = ($_GET['page'] - 1) *$_GET['limit'];
 
         // Dữ liệu trả về từ API
         $books = $data['data']; // Sửa key thành 'data' thay vì 'books'
@@ -122,7 +139,7 @@
             </div>
             
             <div class="list-group list-categories">
-                <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All</button>
+                <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All Category</button>
                 <?php foreach ($data_categories["categories"] as $category): ?>
                     <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == generateCode($category['value'])) ? 'active' : ''; ?>" data-category="<?php echo $category['value']; ?>"><?php echo $category['value']; ?></button>
                 <?php endforeach; ?> 
@@ -130,6 +147,10 @@
              
         </div>
         <div class="table-search col-md-9">
+            <div class="list-group freeBook-allBook">
+                <button type="button" class="list-group-item list-group-item-typeBook list-group-item-action <?php echo ($freeFilter == '1') ? 'active' : ''; ?>" data-free="1">Free Book</button>
+                <button type="button" class="list-group-item list-group-item-typeBook list-group-item-action <?php echo ($freeFilter == '') ? 'active' : ''; ?>" data-free="">All Book</button>
+            </div>
             <div class="search row mb-3">
                 <div class="col">
                     <form method="GET">
@@ -239,6 +260,16 @@
         item.addEventListener('click', event => {
             const category = event.target.getAttribute('data-category');
             window.location.href = 'index.php?category=' + category;
+        });
+    });
+</script>
+
+<script>
+    // Xử lý sự kiện khi nhấp vào nút Free Book hoặc All Book
+    document.querySelectorAll('.list-group-item-typeBook').forEach(item => {
+        item.addEventListener('click', event => {
+            const free = event.target.getAttribute('data-free');
+            window.location.href = 'index.php?free=' + free;
         });
     });
 </script>

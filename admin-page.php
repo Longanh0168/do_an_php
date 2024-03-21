@@ -186,7 +186,7 @@
                             
                         <tr>
                             <td><? echo $key->id  ?></td>
-                            <td><? echo $key->book_title  ?></td>
+                            <td><a href="book-detail.php?id=<? echo $key->book_id?>#book_detail"><? echo $key->book_title ?></a></td>
                             <td><? echo $key->book_id ?></td>
 
                             <td><? echo $key->user_name  ?></td>
