@@ -179,7 +179,7 @@
           <ul class="mobile__menu-list">
             <li><a menu-link="Home" href="index.php#home">Home</a></li>
             <li><a menu-link="Product" href="product.php#product">Product</a></li>
-            <li><a menu-link="Contact" href="index.php#contact">Contact</a></li>
+            <li><a menu-link="Contact" href="contact-us.php#contact">Contact</a></li>
             <? if (isset($_COOKIE['access_token'])) : ?>
               <? if ($_COOKIE['role'] == "AD") : ?>
                 <li><a href="add-book.php#add_book">Add Book</a></li>

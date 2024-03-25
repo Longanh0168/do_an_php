@@ -185,7 +185,7 @@
                                         <td align="center"><?php echo $no++; ?></td>
                                         <td align="center"><?php echo $book['title']; ?></td>
                                         <td class="col-mobile" align="center"><?php echo $book['category_value']; ?></td>
-                                        <td class="col-mobile"><?php echo $book['description']; ?></td>
+                                        <td class="col-mobile col-tablet"><?php echo $book['description']; ?></td>
                                         <td align="center"><?php echo $book['author']; ?></td>
                                         <td align="center">
                                             <!-- <img src="<?php echo $book['image']; ?>" alt="" width="100" height="150"> -->
@@ -213,6 +213,7 @@
                         <?php
                             $currentSearch = isset($_GET['search']) ? $_GET['search'] : '';
                             $currentCategory = isset($_GET['category']) ? $_GET['category'] : ''; 
+                            $currentFree = isset($_GET['free']) ? $_GET['free'] : ''; 
                             $pageUrl = '';
                             if (!empty($currentSearch)) {
                             $pageUrl .= '&search=' . urlencode($currentSearch);
@@ -221,6 +222,11 @@
                             if (!empty($currentCategory)) {
                                 $pageUrl .= '&category=' . urlencode($currentCategory);
                             }
+
+                            if (!empty($currentFree)) {
+                                $pageUrl .= '&free=' . $currentFree;
+                            }
+                            
                             // Hiển thị nút Previous (Trang trước)
                             if($page > 1) {
                                 echo '<li class="page-item"><a class="page-link" href="?page='.($page - 1). $pageUrl.'">Previous</a></li>';
