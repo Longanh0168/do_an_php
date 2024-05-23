@@ -260,12 +260,15 @@
     </div>
 </div>
 
+
 <script>
     // Xử lý sự kiện khi nhấp vào nút danh mục sách
     document.querySelectorAll('.list-group-item').forEach(item => {
         item.addEventListener('click', event => {
             const category = event.target.getAttribute('data-category');
-            window.location.href = 'index.php?category=' + category;
+            const urlParams = new URLSearchParams(window.location.search);
+            const currentFree = urlParams.has('free') ? urlParams.get('free') : '0';
+            window.location.href = 'index.php?category=' + category  + "&free=" +  currentFree ;
         });
     });
 </script>

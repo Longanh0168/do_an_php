@@ -120,6 +120,44 @@
       }
 ?>
 
+<?
+    function BlockUser($id){
+        $processUrl = USER_URL . "/ban_user.php";
+        $headers = array(
+            "Content-Type: application/x-www-form-urlencoded",
+            "Authorization: Bearer " . $_COOKIE['access_token'] ,
+        );
+
+        $data = array(
+            'user_id' => $id,
+        );
+        $ch = curl_init($processUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            $BlockResponse = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+        if ($httpCode === 200) {
+            echo "<script> 
+                var cmm = JSON.stringify($BlockResponse); 
+                alert(cmm)    
+                window.location.href = 'admin-page.php'; 
+            </script>";
+        } else {  
+            echo "<script> 
+                var cmm = JSON.stringify($BlockResponse); 
+                alert(cmm)      
+            </script>";
+        }
+    }
+    if (isset($_GET['block'])) {
+        $block_id = $_GET['id'];
+        BlockUser($block_id);
+      }
+?>
+
 <div class="content" id="admin">
     <div class="admin-page row"> 
         <div class="col-lg-12">
@@ -153,7 +191,13 @@
                                     <td><? echo $key->email  ?></td>
                                     <td>
                                         <a href="admin-user-page.php?id=<? echo $key->id ?>#admin-user" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
-                                    </td>
+                                        <? if ($key->isBanned == 00) : ?>
+                                            <a href="?block=true&id=<? echo $key->id ?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chặn</a>
+
+                                        <?else : ?>
+                                            <div disable href="?block=false&id=<? echo $key->id ?>" class="btn px-0 py-1 btn-cancel" style="width: 100px;">Đã chặn</div>
+                                        <? endif; ?>     
+                                        </td>
                                 </tr>
                         <? endforeach; ?>
                     <? else : ?>

@@ -107,6 +107,8 @@ require "./inc/header.php";
                     <p>Tên : <? echo $ProfileObject->data[0]->name?></p>
                     <p>Email : <? echo $ProfileObject->data[0]->email?></p>
                     <p>Role : <? echo $ProfileObject->data[0]->role?></p>
+                    <p>Tình trạng: <?php echo ($ProfileObject->data[0]->isBanned == 1) ? 'Đã chặn' : 'Đang hoạt động' ; ?></p>
+                       
                 </div>
             </div>
         </div>
